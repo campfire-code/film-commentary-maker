@@ -1,3 +1,61 @@
+# 影视解说一键成片（NarratoAI）
+
+> 篝火出品 · 基于开源项目 [linyqh/NarratoAI](https://github.com/linyqh/NarratoAI)（MIT）
+
+> [!WARNING]
+> **风险提示**：本工具涉及影视等第三方素材的剪辑与二次发布，存在**侵犯著作权**、被平台限流或封号、违反平台规则的风险，仅供学习研究。**只处理你本人拥有版权或已获得授权的素材**；用影视剧、综艺等素材制作解说并发布，可能构成侵权。请遵守平台规则与法律法规，使用后果自负。本工具只开源，不上架篝火应用区。
+
+用大模型看懂视频、撰写解说文案，再自动完成剪辑、配音和字幕，在浏览器页面里一站式操作。
+
+## 下载与启动
+
+到 [Releases](https://github.com/campfire-code/film-commentary-maker/releases/latest) 下载 `film-commentary-maker_版本号_portable.zip`，解压到一个**路径里没有中文和空格**的文件夹。
+
+- **Windows**：双击「启动（Windows 双击）.bat」。
+- **Mac**：右键「启动（Mac 双击）.command」→「打开」。
+
+第一次启动会自动安装 uv、Python 3.12 和依赖，完成后自动打开 http://localhost:8501 。以后启动很快。
+
+## 前置条件与占用
+
+- **大模型（必须自己准备）**：视频理解和文案生成要调用大模型（OpenAI 兼容接口）。在页面「基础设置」里分别填写视觉模型、文本模型的**接口地址、API Key、模型名**。篝火版默认接口地址是 `https://api.openai.com/v1`，**模型名留空，必须自己填**。上游 README 推荐的接口和邀请码属于其合作方，篝火没有要求使用。
+- **密钥保存位置**：填写后保存在解压目录下的 `config.toml`（明文）。不要把含密钥的 `config.toml` 发给别人或上传到仓库。篝火版已把「大模型连通性测试」的调试日志里的 API Key 改为 `***`，不再写入日志。
+- **ffmpeg**：上游代码会调用系统的 `ffmpeg` 命令（`config.example.toml` 里 `ffmpeg_path` 为空时用系统 PATH，也可在系统设置里指定）。请先安装：Mac 执行 `brew install ffmpeg`；Windows 从 ffmpeg 官网下载并加入 PATH。
+- **配音**：默认可用 Edge TTS（不需要密钥），也支持腾讯云、Azure、阿里 DashScope 等，需要对应账号。
+- **配置要求（上游）**：建议 4 核 CPU、8 GB 以上内存，显卡非必须；本地语音识别（faster-whisper）和 CUDA 属可选依赖，默认不安装。
+- **首次安装**：本机实测（Apple 芯片 Mac，清华 PyPI 镜像）安装依赖约 45 秒，`.venv` 约 757 MB。大模型接口调用按服务商计费。
+- 启动脚本已关闭 Streamlit 的使用统计，并只监听本机（127.0.0.1）。
+
+## 怎么用
+
+1. 启动后，先在「基础设置」里填好视觉模型和文本模型。
+2. 选择视频，按页面流程生成解说脚本，再选配音、字幕、背景音乐等。
+3. 生成成片，结果在解压目录的 `storage/` 下。
+
+具体步骤和参数以上游[官方文档](https://p9mf6rjv3c.feishu.cn/wiki/SP8swLLZki5WRWkhuFvc2CyInDg?from=from_copylink)为准。界面主要为简体中文。
+
+## 验收用例
+
+| 操作 | 应得到 |
+|---|---|
+| 双击启动脚本，等待安装完成 | 浏览器自动打开 http://localhost:8501 的页面 |
+| 在基础设置填好模型，用一段你有权使用的 1 分钟内视频走完流程 | 生成带解说、配音和字幕的成片 |
+
+## 和上游的区别
+
+- 默认大模型接口由 `https://api.siliconflow.cn/v1` 改为 `https://api.openai.com/v1`，默认模型名清空（`app/config/defaults.py`、`config.example.toml`，并同步修改了对应单元测试）。
+- 连通性测试的调试日志不再输出 API Key。
+- 移除上游的 GitHub 工作流（依赖其密钥），新增 `campfire/` 启动脚本、`tool.json` 和篝火发布流程。其余代码与上游一致。
+- 启动脚本用 uv 建 `.venv`（Python 3.12），执行 `uv pip install -r requirements.txt` 后用 `streamlit run webui.py` 启动，不使用 `uv.lock`。
+
+## 归属与许可证
+
+本仓库由**篝火**整理发布。软件全部功能与版权归 [linyqh/NarratoAI](https://github.com/linyqh/NarratoAI) 原作者所有，按 MIT 许可证再分发（见 `LICENSE`）。全部工具目录见 [toolkit-hub](https://github.com/campfire-code/toolkit-hub)。
+
+---
+
+以下为上游原始说明：
+
 <div align="center">
 <h1 align="center"> NarratoAI 😎📽️ </h1>
 <h3 align="center">一站式 AI 影视解说+自动化剪辑工具🎬🎞️ </h3>

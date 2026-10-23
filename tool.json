@@ -1,0 +1,10 @@
+{
+  "id": "c02",
+  "slug": "film-commentary-maker",
+  "name": "影视解说一键成片",
+  "version": "0.8.7-campfire.1",
+  "repo": "campfire-code/film-commentary-maker",
+  "license": "MIT",
+  "delivery": "launcher",
+  "upstream": { "repo": "linyqh/NarratoAI", "license": "MIT" }
+}

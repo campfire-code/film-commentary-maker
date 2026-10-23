@@ -402,7 +402,7 @@ def test_vision_model_connection(api_key, base_url, model_name, provider, tr):
         str: 测试结果消息
     """
     import requests
-    logger.debug(f"大模型连通性测试: {base_url} 模型: {model_name} apikey: {api_key}")
+    logger.debug(f"大模型连通性测试: {base_url} 模型: {model_name} apikey: ***")
     if provider.lower() == 'gemini':
         # 原生Gemini API测试
         try:
@@ -779,7 +779,7 @@ def test_text_model_connection(api_key, base_url, model_name, provider, tr):
         str: 测试结果消息
     """
     import requests
-    logger.debug(f"大模型连通性测试: {base_url} 模型: {model_name} apikey: {api_key}")
+    logger.debug(f"大模型连通性测试: {base_url} 模型: {model_name} apikey: ***")
 
     try:
         # 构建统一的测试请求（遵循OpenAI格式）
